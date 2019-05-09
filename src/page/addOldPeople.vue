@@ -14,7 +14,7 @@
             <el-input v-model="formData.name"></el-input>
           </el-form-item>
           <el-form-item label="性别" prop="sex">
-            <el-select v-model="formData.sex" placeholder="男">
+            <el-select v-model="formData.sex" placeholder="请选择性别">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -42,138 +42,41 @@
             ></el-autocomplete>
             <span>当前城市：{{city.name}}</span>
           </el-form-item>
-          <el-form-item label="店铺简介" prop="description">
-            <el-input v-model="formData.description"></el-input>
+          <el-form-item label="出生日期" prop="birthday">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="formData.birthday"
+                style="width: 195px;"
+              ></el-date-picker>
+            </el-col>
           </el-form-item>
-          <el-form-item label="店铺标语" prop="promotion_info">
-            <el-input v-model="formData.promotion_info"></el-input>
+          <el-form-item label="入院日期" prop="entryDate">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="formData.entryDate"
+                style="width: 195px;"
+              ></el-date-picker>
+            </el-col>
           </el-form-item>
-          <el-form-item label="店铺分类">
-            <el-cascader :options="categoryOptions" v-model="selectedCategory" change-on-select></el-cascader>
-          </el-form-item>
-          <el-form-item label="店铺特点" style="white-space: nowrap;">
-            <span>品牌保证</span>
-            <el-switch on-text off-text v-model="formData.is_premium"></el-switch>
-            <span>蜂鸟专送</span>
-            <el-switch on-text off-text v-model="formData.delivery_mode"></el-switch>
-            <span>新开店铺</span>
-            <el-switch on-text off-text v-model="formData.new"></el-switch>
-          </el-form-item>
-          <el-form-item style="white-space: nowrap;">
-            <span>外卖保</span>
-            <el-switch on-text off-text v-model="formData.bao"></el-switch>
-            <span>准时达</span>
-            <el-switch on-text off-text v-model="formData.zhun"></el-switch>
-            <span>开发票</span>
-            <el-switch on-text off-text v-model="formData.piao"></el-switch>
-          </el-form-item>
-          <el-form-item label="配送费" prop="float_delivery_fee">
-            <el-input-number v-model="formData.float_delivery_fee" :min="0" :max="20"></el-input-number>
-          </el-form-item>
-          <el-form-item label="起送价" prop="float_minimum_order_amount">
-            <el-input-number v-model="formData.float_minimum_order_amount" :min="0" :max="100"></el-input-number>
-          </el-form-item>
-          <el-form-item label="营业时间" style="white-space: nowrap;">
-            <el-time-select
-              placeholder="起始时间"
-              v-model="formData.startTime"
-              :picker-options="{
-							start: '05:30',
-							step: '00:15',
-							end: '23:30'
-							}"
-            ></el-time-select>
-            <el-time-select
-              placeholder="结束时间"
-              v-model="formData.endTime"
-              :picker-options="{
-							start: '05:30',
-							step: '00:15',
-							end: '23:30',
-							minTime: formData.startTime
-							}"
-            ></el-time-select>
-          </el-form-item>
-
-          <el-form-item label="上传店铺头像">
+          <el-form-item label="照片" prop="photo">
             <el-upload
               class="avatar-uploader"
-              :action="baseUrl + '/v1/addimg/shop'"
+              name="photo"
+              action="http://localhost:8081/file/photo/oldPeople"
               :show-file-list="false"
-              :on-success="handleShopAvatarScucess"
+              :on-success="handleOldPeopleAvatarScucess"
               :before-upload="beforeAvatarUpload"
             >
-              <img
-                v-if="formData.image_path"
-                :src="baseImgPath + formData.image_path"
-                class="avatar"
-              >
+              <img v-if="formData.photo" :src="url" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="上传营业执照">
-            <el-upload
-              class="avatar-uploader"
-              :action="baseUrl + '/v1/addimg/shop'"
-              :show-file-list="false"
-              :on-success="handleBusinessAvatarScucess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img
-                v-if="formData.business_license_image"
-                :src="baseImgPath + formData.business_license_image"
-                class="avatar"
-              >
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="上传餐饮服务许可证">
-            <el-upload
-              class="avatar-uploader"
-              :action="baseUrl + '/v1/addimg/shop'"
-              :show-file-list="false"
-              :on-success="handleServiceAvatarScucess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img
-                v-if="formData.catering_service_license_image"
-                :src="baseImgPath + formData.catering_service_license_image"
-                class="avatar"
-              >
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="优惠活动">
-            <el-select
-              v-model="activityValue"
-              @change="selectActivity"
-              :placeholder="activityValue"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-table
-            :data="activities"
-            style="min-width: 600px;margin-bottom: 20px;"
-            align="cneter"
-            :row-class-name="tableRowClassName"
-          >
-            <el-table-column prop="icon_name" label="活动标题" align="cneter" width="120"></el-table-column>
-            <el-table-column prop="name" label="活动名称" align="cneter" width="120"></el-table-column>
-            <el-table-column prop="description" align="cneter" label="活动详情"></el-table-column>
-            <el-table-column label="操作" width="120">
-              <template slot-scope="scope">
-                <el-button size="small" type="danger" @click="handleDelete(scope.$index)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
           <el-form-item class="button_submit">
-            <el-button type="primary" @click="submitForm('formData')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('formData')">添加老人</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -183,11 +86,11 @@
 
 <script>
 import headTop from "@/components/headTop";
-import { cityGuess, addShop, searchplace, foodCategory } from "@/api/getData";
-import { baseUrl, baseImgPath } from "@/config/env";
+import { cityGuess,searchplace } from "@/api/getData";
 export default {
   data() {
     return {
+      url: "",
       city: {},
       formData: {
         name: "", //姓名
@@ -198,25 +101,7 @@ export default {
         birthday: "", //出生日期
         familyPhone: "", //家庭电话
         photo: "", //照片
-        entryDate: "", //入院日期
-        latitude: "",
-        longitude: "",
-        description: "", //介绍
-        phone: "",
-        promotion_info: "",
-        float_delivery_fee: 5, //运费
-        float_minimum_order_amount: 20, //起价
-        is_premium: true,
-        delivery_mode: true,
-        new: true,
-        bao: true,
-        zhun: true,
-        piao: true,
-        startTime: "",
-        endTime: "",
-        image_path: "",
-        business_license_image: "",
-        catering_service_license_image: ""
+        entryDate: "" //入院日期
       },
       rules: {
         name: [{ required: true, message: "请输入店铺名称", trigger: "blur" }],
@@ -231,77 +116,54 @@ export default {
           { required: true, message: "请输入联系电话" },
           { type: "number", message: "电话号码必须是数字" }
         ],
-        sex: [
+        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
+        photo: [{ required: true, message: "请上传头像", trigger: "blur" }],
+        birthday: [
           {
             required: true,
+            message: "请选择出生日期",
+            trigger: "blur",
+            type: "date"
           }
         ],
-        idCard: [
+        entryDate: [
           {
             required: true,
-            message: "请输入身份证号",
-            trigger: "blur"
+            message: "请选择入院日期",
+            trigger: "blur",
+            type: "date"
           }
-        ]
+        ],
+        idCard: [{ required: true, message: "请输入身份证号", trigger: "blur" }]
       },
-      options: [
-        {
-          value: "男",
-          label: "男"
-        },
-        {
-          value: "女",
-          label: "女"
-        }
-      ],
-      activityValue: "满减优惠",
-      activities: [
-        {
-          icon_name: "减",
-          name: "满减优惠",
-          description: "满30减5，满60减8"
-        }
-      ],
-      baseUrl,
-      baseImgPath,
-      categoryOptions: [],
-      selectedCategory: ["快餐便当", "简餐"]
+      options: [{ value: "男", label: "男" }, { value: "女", label: "女" }]
     };
   },
   components: {
     headTop
   },
+  inject: ["reload"],
   mounted() {
     this.initData();
   },
   methods: {
+    getDate(birthday) {
+      /*
+            格式化时间
+        */
+      var d = new Date(birthday);
+      var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      return date;
+    },
     async initData() {
       try {
+        //获取当前城市
         this.city = await cityGuess();
-        const categories = await foodCategory();
-        categories.forEach(item => {
-          if (item.sub_categories.length) {
-            const addnew = {
-              value: item.name,
-              label: item.name,
-              children: []
-            };
-            item.sub_categories.forEach((subitem, index) => {
-              if (index == 0) {
-                return;
-              }
-              addnew.children.push({
-                value: subitem.name,
-                label: subitem.name
-              });
-            });
-            this.categoryOptions.push(addnew);
-          }
-        });
       } catch (err) {
         console.log(err);
       }
     },
+    //通过输入查询地理位置列表
     async querySearchAsync(queryString, cb) {
       if (queryString) {
         try {
@@ -319,29 +181,17 @@ export default {
       }
     },
     addressSelect(address) {
-      this.formData.latitude = address.latitude;
-      this.formData.longitude = address.longitude;
-      console.log(this.formData.latitude, this.formData.longitude);
+      //console.log(this.formData.address);
+      //this.formData.latitude = address.latitude;
+      //this.formData.longitude = address.longitude;
+      //console.log(this.formData.latitude, this.formData.longitude);
     },
-    handleShopAvatarScucess(res, file) {
-      if (res.status == 1) {
-        this.formData.image_path = res.image_path;
+    handleOldPeopleAvatarScucess(res, file) {
+      if (res.code == 1) {
+        this.formData.photo = res.data.photo;
+        this.url = res.data.url;
       } else {
-        this.$message.error("上传图片失败！");
-      }
-    },
-    handleBusinessAvatarScucess(res, file) {
-      if (res.status == 1) {
-        this.formData.business_license_image = res.image_path;
-      } else {
-        this.$message.error("上传图片失败！");
-      }
-    },
-    handleServiceAvatarScucess(res, file) {
-      if (res.status == 1) {
-        this.formData.catering_service_license_image = res.image_path;
-      } else {
-        this.$message.error("上传图片失败！");
+        this.$message.error("上传照片失败！");
       }
     },
     beforeAvatarUpload(file) {
@@ -357,124 +207,34 @@ export default {
       }
       return isRightType && isLt2M;
     },
-    tableRowClassName(row, index) {
-      if (index === 1) {
-        return "info-row";
-      } else if (index === 3) {
-        return "positive-row";
-      }
-      return "";
-    },
-    selectActivity() {
-      this.$prompt("请输入活动详情", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      })
-        .then(({ value }) => {
-          if (value == null) {
-            this.$message({
-              type: "info",
-              message: "请输入活动详情"
-            });
-            return;
-          }
-          let newObj = {};
-          switch (this.activityValue) {
-            case "满减优惠":
-              newObj = {
-                icon_name: "减",
-                name: "满减优惠",
-                description: value
-              };
-              break;
-            case "优惠大酬宾":
-              newObj = {
-                icon_name: "特",
-                name: "优惠大酬宾",
-                description: value
-              };
-              break;
-            case "新用户立减":
-              newObj = {
-                icon_name: "新",
-                name: "新用户立减",
-                description: value
-              };
-              break;
-            case "进店领券":
-              newObj = {
-                icon_name: "领",
-                name: "进店领券",
-                description: value
-              };
-              break;
-          }
-          this.activities.push(newObj);
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消输入"
-          });
-        });
-    },
-    handleDelete(index) {
-      this.activities.splice(index, 1);
-    },
     submitForm(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
-          Object.assign(
-            this.formData,
-            { activities: this.activities },
-            {
-              category: this.selectedCategory.join("/")
-            }
-          );
           try {
-            let result = await addShop(this.formData);
-            if (result.status == 1) {
-              this.$message({
-                type: "success",
-                message: "添加成功"
-              });
-              this.formData = {
-                name: "", //店铺名称
-                address: "", //地址
-                latitude: "",
-                longitude: "",
-                description: "", //介绍
-                phone: "",
-                promotion_info: "",
-                float_delivery_fee: 5, //运费
-                float_minimum_order_amount: 20, //起价
-                is_premium: true,
-                delivery_mode: true,
-                new: true,
-                bao: true,
-                zhun: true,
-                piao: true,
-                startTime: "",
-                endTime: "",
-                image_path: "",
-                business_license_image: "",
-                catering_service_license_image: ""
-              };
-              this.selectedCategory = ["快餐便当", "简餐"];
-              this.activities = [
-                {
-                  icon_name: "减",
-                  name: "满减优惠",
-                  description: "满30减5，满60减8"
-                }
-              ];
-            } else {
-              this.$message({
-                type: "error",
-                message: result.message
-              });
-            }
-            console.log(result);
+            var data = {};
+            this.formData.birthday = this.getDate(this.formData.birthday);
+            this.formData.entryDate = this.getDate(this.formData.entryDate);
+            let form = new FormData();
+            form.append("name", this.formData.name);
+            form.append("idCard", this.formData.idCard);
+            form.append("sex", this.formData.sex);
+            form.append("address", this.formData.address);
+            form.append("telephone", this.formData.telephone);
+            form.append("photo", this.formData.photo);
+            form.append("familyPhone", this.formData.familyPhone);
+            form.append("birthday", this.formData.birthday);
+            form.append("entryDate", this.formData.entryDate);
+            this.$http.post("oldPeople/add", form).then(res => {
+              if (res.data.code == 1) {
+                this.$message({
+                  type: "success",
+                  message: "添加老人信息成功！"
+                });
+                this.reload();
+              } else {
+                this.$message.error("添加老人信息失败！");
+              }
+            });
           } catch (err) {
             console.log(err);
           }
@@ -495,7 +255,7 @@ export default {
 <style lang="less">
 @import "../style/mixin";
 .button_submit {
-  text-align: center;
+  text-align: left;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

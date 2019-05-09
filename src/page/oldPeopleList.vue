@@ -93,7 +93,7 @@
               name="photo"
               action="http://localhost:8081/file/photo/oldPeople"
               :show-file-list="false"
-              :on-success="handleServiceAvatarScucess"
+              :on-success="handleOldPeopleAvatarScucess"
               :before-upload="beforeAvatarUpload"
             >
               <img v-if="selectTable.url" :src="selectTable.url" class="avatar">
@@ -249,7 +249,7 @@ export default {
       const { address, latitude, longitude } = vale;
       this.address = { address, latitude, longitude };
     },
-    handleServiceAvatarScucess(res, file) {
+    handleOldPeopleAvatarScucess(res, file) {
       if (res.code == 1) {
         this.selectTable.photo = res.data.photo;
         this.selectTable.url = res.data.url;

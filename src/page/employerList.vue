@@ -108,7 +108,7 @@
               name="photo"
               action="http://localhost:8081/file/photo/employer"
               :show-file-list="false"
-              :on-success="handleServiceAvatarScucess"
+              :on-success="handleEmployerAvatarScucess"
               :before-upload="beforeAvatarUpload"
             >
               <img v-if="selectTable.url" :src="selectTable.url" class="avatar">
@@ -317,7 +317,7 @@ export default {
         });
       }
     },
-    handleServiceAvatarScucess(res, file) {
+    handleEmployerAvatarScucess(res, file) {
       if (res.code == 1) {
         this.selectTable.photo = res.data.photo;
         this.selectTable.url = res.data.url;
