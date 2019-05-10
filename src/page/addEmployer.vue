@@ -16,7 +16,7 @@
           <el-form-item label="性别" prop="sex">
             <el-select v-model="formData.sex" placeholder="请选择性别">
               <el-option
-                v-for="item in options"
+                v-for="item in options1"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -29,16 +29,12 @@
           <el-form-item label="联系电话" prop="telephone">
             <el-input v-model.number="formData.telephone" :maxlength="11"></el-input>
           </el-form-item>
-          <el-form-item label="家庭电话" prop="familyPhone">
-            <el-input v-model.number="formData.familyPhone" :maxlength="11"></el-input>
-          </el-form-item>
           <el-form-item label="家庭住址" prop="address">
             <el-autocomplete
               v-model="formData.address"
               :fetch-suggestions="querySearchAsync"
               placeholder="请输入地址"
               style="width: 100%;"
-              @select="addressSelect"
             ></el-autocomplete>
             <span>当前城市：{{city.name}}</span>
           </el-form-item>
@@ -52,7 +48,7 @@
               ></el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="入院日期" prop="entryDate">
+          <el-form-item label="入职日期" prop="entryDate">
             <el-col :span="11">
               <el-date-picker
                 type="date"
@@ -62,13 +58,33 @@
               ></el-date-picker>
             </el-col>
           </el-form-item>
+          <el-form-item label="部门" prop="department">
+            <el-select v-model="formData.department" placeholder="请选择部门">
+              <el-option
+                v-for="item in menuOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="职位" prop="position">
+            <el-select v-model="formData.position" placeholder="请选择性别">
+              <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="照片" prop="photo">
             <el-upload
               class="avatar-uploader"
               name="photo"
-              action="http://localhost:8081/file/photo/oldPeople"
+              action="http://localhost:8081/file/photo/employer"
               :show-file-list="false"
-              :on-success="handleOldPeopleAvatarScucess"
+              :on-success="handleEmployerAvatarScucess"
               :before-upload="beforeAvatarUpload"
             >
               <img v-if="formData.photo" :src="url" class="avatar">
@@ -76,7 +92,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item class="button_submit">
-            <el-button type="primary" @click="submitForm('formData')">添加老人</el-button>
+            <el-button type="primary" @click="submitForm('formData')">添加员工</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -92,6 +108,7 @@ export default {
     return {
       url: "",
       city: {},
+      menuOptions: [],
       formData: {
         name: "", //姓名
         sex: "", //性别
@@ -99,9 +116,10 @@ export default {
         address: "", //家庭住址
         idCard: "", //身份证号
         birthday: "", //出生日期
-        familyPhone: "", //家庭电话
         photo: "", //照片
-        entryDate: "" //入院日期
+        entryDate: "", //入院日期
+        department: "", //部门
+        position: "" //职位
       },
       rules: {
         name: [{ required: true, message: "请输入店铺名称", trigger: "blur" }],
@@ -118,6 +136,10 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
         photo: [{ required: true, message: "请上传头像", trigger: "blur" }],
+        department: [
+          { required: true, message: "请选择所属部门", trigger: "blur" }
+        ],
+        position: [{ required: true, message: "请选择职位", trigger: "blur" }],
         birthday: [
           {
             required: true,
@@ -136,7 +158,15 @@ export default {
         ],
         idCard: [{ required: true, message: "请输入身份证号", trigger: "blur" }]
       },
-      options: [{ value: "男", label: "男" }, { value: "女", label: "女" }]
+      options1: [{ value: "男", label: "男" }, { value: "女", label: "女" }],
+      options2: [
+        { value: "文员", label: "文员" },
+        { value: "财务", label: "财务" },
+        { value: "护工", label: "护工" },
+        { value: "经理", label: "经理" },
+        { value: "副院长", label: "副院长" },
+        { value: "院长", label: "院长" }
+      ]
     };
   },
   components: {
@@ -159,8 +189,26 @@ export default {
       try {
         //获取当前城市
         this.city = await cityGuess();
+        this.getDepartments();
       } catch (err) {
         console.log(err);
+      }
+    },
+    //获取所有部门
+    async getDepartments() {
+      this.menuOptions = [];
+      try {
+        this.$http.get("department/findAll").then(res => {
+          const menu = res.data.data;
+          menu.forEach((item, index) => {
+            this.menuOptions.push({
+              label: item.departmentName,
+              value: item.departmentId
+            });
+          });
+        });
+      } catch (err) {
+        console.log("获取部门失败", err);
       }
     },
     //通过输入查询地理位置列表
@@ -180,13 +228,7 @@ export default {
         }
       }
     },
-    addressSelect(address) {
-      //console.log(this.formData.address);
-      //this.formData.latitude = address.latitude;
-      //this.formData.longitude = address.longitude;
-      //console.log(this.formData.latitude, this.formData.longitude);
-    },
-    handleOldPeopleAvatarScucess(res, file) {
+    handleEmployerAvatarScucess(res, file) {
       if (res.code == 1) {
         this.formData.photo = res.data.photo;
         this.url = res.data.url;
@@ -221,18 +263,19 @@ export default {
             form.append("address", this.formData.address);
             form.append("telephone", this.formData.telephone);
             form.append("photo", this.formData.photo);
-            form.append("familyPhone", this.formData.familyPhone);
+						form.append("departmentId", this.formData.department);
+						form.append("position", this.formData.department);
             form.append("birthday", this.formData.birthday);
             form.append("entryDate", this.formData.entryDate);
-            this.$http.post("oldPeople/add", form).then(res => {
+            this.$http.post("employer/add", form).then(res => {
               if (res.data.code == 1) {
                 this.$message({
                   type: "success",
-                  message: "添加老人信息成功！"
+                  message: "添加员工信息成功！"
                 });
                 this.reload();
               } else {
-                this.$message.error("添加老人信息失败！");
+                this.$message.error("添加员工信息失败！");
               }
             });
           } catch (err) {

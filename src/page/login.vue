@@ -3,7 +3,7 @@
     <transition name="form-fade" mode="in-out">
       <section class="form_contianer" v-show="showLogin">
         <div class="manage_tip">
-          <p>智慧养老院管理系统{{this.$store.state.count}}</p>
+          <p>智慧医疗养老院管理系统</p>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
           <el-form-item prop="username">
@@ -92,7 +92,7 @@ export default {
   top: -100px;
   left: 0;
   p {
-    font-size: 34px;
+    font-size: 32px;
     color: #fff;
   }
 }

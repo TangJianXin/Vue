@@ -38,7 +38,6 @@
               :fetch-suggestions="querySearchAsync"
               placeholder="请输入地址"
               style="width: 100%;"
-              @select="addressSelect"
             ></el-autocomplete>
             <span>当前城市：{{city.name}}</span>
           </el-form-item>
@@ -179,12 +178,6 @@ export default {
           console.log(err);
         }
       }
-    },
-    addressSelect(address) {
-      //console.log(this.formData.address);
-      //this.formData.latitude = address.latitude;
-      //this.formData.longitude = address.longitude;
-      //console.log(this.formData.latitude, this.formData.longitude);
     },
     handleOldPeopleAvatarScucess(res, file) {
       if (res.code == 1) {
