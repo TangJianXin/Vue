@@ -8,17 +8,17 @@
           </el-menu-item>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-document"></i>数据管理
+              <i class="el-icon-document"></i>信息管理
             </template>
-            <el-menu-item index="departmentList">部门管理</el-menu-item>
             <el-menu-item index="OldPeopleList">老人管理</el-menu-item>
             <el-menu-item index="employerList">员工管理</el-menu-item>
             <el-menu-item index="bedList">床位管理</el-menu-item>
             <el-menu-item index="equipmentList">设备管理</el-menu-item>
+            <el-menu-item index="departmentList">部门管理</el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-plus"></i>添加数据
+              <i class="el-icon-plus"></i>添加信息
             </template>
             <el-menu-item index="addOldPeople">添加老人</el-menu-item>
             <el-menu-item index="addEmployer">添加员工</el-menu-item>

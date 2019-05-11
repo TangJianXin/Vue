@@ -204,7 +204,6 @@ export default {
       this.$refs[formName].validate(async valid => {
         if (valid) {
           try {
-            var data = {};
             this.formData.birthday = this.getDate(this.formData.birthday);
             this.formData.entryDate = this.getDate(this.formData.entryDate);
             let form = new FormData();

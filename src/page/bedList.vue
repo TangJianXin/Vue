@@ -9,7 +9,12 @@
         <el-table-column label="操作" width="160">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-            <el-button v-if="isAdmin" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              v-if="isAdmin"
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -124,7 +129,9 @@ export default {
       for (i; i < index; i++) {
         const tableData = {};
         tableData.bedId = this.beds[i].bedId;
-        tableData.oldPeople = this.beds[i].oldPeopleByOldPeopleId.name;
+        if (this.beds[i].oldPeopleByOldPeopleId != null) {
+          tableData.oldPeople = this.beds[i].oldPeopleByOldPeopleId.name;
+        }
         tableData.employer = this.beds[i].employerByEmployerId.name;
         tableData.oldPeopleByOldPeopleId = this.beds[i].oldPeopleByOldPeopleId;
         tableData.employerByEmployerId = this.beds[i].employerByEmployerId;
@@ -188,7 +195,9 @@ export default {
           break;
         }
       }
-      this.selectTable.oldPeopleId = row.oldPeopleByOldPeopleId.oldPeopleId;
+      if (row.oldPeopleByOldPeopleId != null) {
+        this.selectTable.oldPeopleId = row.oldPeopleByOldPeopleId.oldPeopleId;
+      }
       this.selectTable.employerId = row.employerByEmployerId.employerId;
       var j = 0;
       for (j; j < this.menuOptions2.length; j++) {
@@ -255,6 +264,10 @@ export default {
             };
             data.bedId = this.selectTable.bedId;
             this.selectTable.oldPeopleByOldPeopleId.name = this.selectTable.oldPeople;
+            if(this.selectTable.employerByEmployerId==null)
+            {
+              this.selectTable.employerByEmployerId = {};
+            }
             this.selectTable.employerByEmployerId.name = this.selectTable.employer;
             data.employerByEmployerId = this.selectTable.employerByEmployerId;
             data.oldPeopleByOldPeopleId = this.selectTable.oldPeopleByOldPeopleId;
