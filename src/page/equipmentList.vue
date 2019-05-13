@@ -11,7 +11,12 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-            <el-button v-if="isAdmin" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              v-if="isAdmin"
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -85,6 +90,7 @@ export default {
   components: {
     headTop
   },
+  inject: ["reload"],
   created() {
     this.role = storage.get("1").role;
     if (this.role == "管理员") {
@@ -95,11 +101,11 @@ export default {
     this.initData();
   },
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },
@@ -178,6 +184,7 @@ export default {
               this.count = this.equipments.length;
               this.getTableData();
             } else {
+              this.$message.error("设备删除失败！");
               throw new Error(res.message);
             }
           });
@@ -229,14 +236,7 @@ export default {
         form.append("departmentId", this.selectTable.departmentId);
         this.$http.put("equipment/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            const data = {};
-            data.equipmentId = this.selectTable.equipmentId;
-            data.equipmentName = this.selectTable.equipmentName;
-            data.productionDate = this.selectTable.productionDate;
-            data.purchaseDate = this.selectTable.purchaseDate;
-            this.selectTable.departmentByDepartmentId.departmentName = this.selectTable.departmentName;
-            data.departmentByDepartmentId = this.selectTable.departmentByDepartmentId;
-            this.equipments[this.index] = data;
+            this.reload();
             this.$message({
               type: "success",
               message: "更新信息成功！"

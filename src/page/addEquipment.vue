@@ -10,9 +10,6 @@
           label-width="110px"
           class="demo-formData"
         >
-          <el-form-item label="设备编号" prop="equipmentId">
-            <el-input v-model="formData.equipmentId"></el-input>
-          </el-form-item>
           <el-form-item label="设备名称" prop="equipmentName">
             <el-input v-model="formData.equipmentName"></el-input>
           </el-form-item>
@@ -62,16 +59,12 @@ export default {
     return {
       menuOptions: [],
       formData: {
-        equipmentId: "",
         departmentId: "",
         equipmentName: "",
         productionDate: "",
         purchaseDate: ""
       },
       rules: {
-        equipmentId: [
-          { required: true, message: "请输入设备编号", trigger: "blur" }
-        ],
         equipmentName: [
           { required: true, message: "请输入设备名称", trigger: "blur" }
         ],
@@ -109,8 +102,8 @@ export default {
       this.getDepartments();
     },
     //格式化时间
-    getDate(birthday) {
-      var d = new Date(birthday);
+    getDate(Timestamp) {
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },
@@ -142,7 +135,6 @@ export default {
               this.formData.purchaseDate
             );
             let form = new FormData();
-            form.append("equipmentId", this.formData.equipmentId);
             form.append("equipmentName", this.formData.equipmentName);
             form.append("productionDate", this.formData.productionDate);
             form.append("purchaseDate", this.formData.purchaseDate);

@@ -1,7 +1,7 @@
 <template>
   <div class="fillcontain">
     <head-top></head-top>
-    <header class="admin_title">管理员信息</header>
+    <header class="admin_title">个人中心</header>
     <div class="admin_set">
       <ul>
         <li>
@@ -76,11 +76,11 @@ export default {
     ...mapState(["adminInfo"])
   },
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },

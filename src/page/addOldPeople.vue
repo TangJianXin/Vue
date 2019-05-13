@@ -146,11 +146,11 @@ export default {
     this.initData();
   },
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },

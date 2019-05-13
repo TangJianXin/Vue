@@ -47,7 +47,12 @@
         <el-table-column label="操作" width="160">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index,scope.row)">修改</el-button>
-            <el-button v-if="isAdmin" size="small" type="primary" @click="handleDelete(scope.$index, scope.row)">离职</el-button>
+            <el-button
+              v-if="isAdmin"
+              size="small"
+              type="primary"
+              @click="handleDelete(scope.$index, scope.row)"
+            >离职</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -163,12 +168,13 @@ export default {
   components: {
     headTop
   },
+  inject: ["reload"],
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },
@@ -289,27 +295,24 @@ export default {
       this.selectTable.departmentName = this.selectMenu.label;
     },
     async handleDelete(index, row) {
+      let form = new FormData();
+      form.append("employerId", row.employerId);
       try {
-        this.$http
-          .delete("employer/deleteById", {
-            data: {
-              employerId: row.employerId
-            }
-          })
-          .then(res => {
-            if (res.data.code == 1) {
-              this.$message({
-                type: "success",
-                message: "删除成功"
-              });
-              this.tableData.splice(index, 1);
-              this.employers.splice(this.offset + index, 1);
-              this.count = this.employers.length;
-              this.getTableData();
-            } else {
-              throw new Error(res.message);
-            }
-          });
+        this.$http.post("employer/deleteById", form).then(res => {
+          if (res.data.code == 1) {
+            this.$message({
+              type: "success",
+              message: "办理离职成功"
+            });
+            this.tableData.splice(index, 1);
+            this.employers.splice(this.offset + index, 1);
+            this.count = this.employers.length;
+            this.getTableData();
+          } else {
+            this.$message.error("办理离职失败！");
+            throw new Error(res.message);
+          }
+        });
       } catch (err) {
         this.$message({
           type: "error",
@@ -356,26 +359,7 @@ export default {
         form.append("departmentId", this.selectTable.departmentId);
         this.$http.put("employer/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            const data = {
-              employer: {
-                departmentByDepartmentId: {}
-              },
-              url: ""
-            };
-            data.employer.name = this.selectTable.name;
-            data.employer.address = this.selectTable.address;
-            data.employer.photo = this.selectTable.photo;
-            data.employer.employerId = this.selectTable.employerId;
-            data.employer.telephone = this.selectTable.telephone;
-            data.employer.sex = this.selectTable.sex;
-            data.employer.birthday = this.selectTable.birthday;
-            data.employer.idCard = this.selectTable.idCard;
-            data.employer.position = this.selectTable.position;
-            data.employer.entryDate = this.selectTable.entryDate;
-            this.selectTable.departmentByDepartmentId.departmentName = this.selectTable.departmentName;
-            data.employer.departmentByDepartmentId = this.selectTable.departmentByDepartmentId;
-            data.url = this.selectTable.url;
-            this.employers[this.index] = data;
+            this.reload();
             this.$message({
               type: "success",
               message: "更新信息成功！"

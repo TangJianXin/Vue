@@ -8,7 +8,12 @@
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index,scope.row)">修改</el-button>
-            <el-button v-if="isAdmin" size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              v-if="isAdmin"
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
             <el-button
               size="small"
               type="info"
@@ -66,20 +71,20 @@ export default {
       dialogFormVisible: false,
       dialogTableVisible: false,
       index: 0,
-      role:"",
-      isAdmin:false
+      role: "",
+      isAdmin: false
     };
   },
   components: {
     headTop
   },
-  mounted(){
+  inject: ["reload"],
+  mounted() {
     this.initData();
   },
   created() {
-    this.role = storage.get('1').role;
-    if(this.role=='管理员')
-    {
+    this.role = storage.get("1").role;
+    if (this.role == "管理员") {
       this.isAdmin = true;
     }
   },
@@ -123,6 +128,7 @@ export default {
               this.count = this.departments.length;
               this.getTableData();
             } else {
+              this.$message.error("部门删除失败！");
               throw new Error(res.message);
             }
           });
@@ -136,15 +142,17 @@ export default {
     async showAllEmployers(index, row) {
       this.dialogTableVisible = true;
       try {
-        this.$http.get("department/findAllEmployer",{
-          params:{
-            departmentId:row.departmentId,
-          }
-        }).then(res => {
-          if (res.data.code == 1) {
-            this.employers = res.data.data;
-          }
-        });
+        this.$http
+          .get("department/findAllEmployer", {
+            params: {
+              departmentId: row.departmentId
+            }
+          })
+          .then(res => {
+            if (res.data.code == 1) {
+              this.employers = res.data.data;
+            }
+          });
       } catch (err) {
         console.log("获取数据失败", err);
       }
@@ -158,6 +166,7 @@ export default {
         form.append("departmentName", this.selectTable.departmentName);
         this.$http.put("department/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
+            this.reload();
             this.$message({
               type: "success",
               message: "更新信息成功！"

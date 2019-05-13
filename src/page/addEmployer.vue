@@ -122,7 +122,7 @@ export default {
         position: "" //职位
       },
       rules: {
-        name: [{ required: true, message: "请输入店铺名称", trigger: "blur" }],
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         address: [
           { required: true, message: "请输入详细地址", trigger: "blur" }
         ],
@@ -177,11 +177,11 @@ export default {
     this.initData();
   },
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },

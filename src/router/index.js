@@ -17,6 +17,7 @@ const oldPeopleList = r => require.ensure([], () => r(require('@/page/oldPeopleL
 const employerList = r => require.ensure([], () => r(require('@/page/employerList')), 'employerList');
 const bedList = r => require.ensure([], () => r(require('@/page/bedList')), 'bedList');
 const equipmentList = r => require.ensure([], () => r(require('@/page/equipmentList')), 'equipmentList');
+const fundsList = r => require.ensure([], () => r(require('@/page/fundsList')), 'fundsList');
 const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
 const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
 const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
@@ -89,6 +90,11 @@ const routes = [
 			component: equipmentList,
 			meta: ['数据管理', '设备列表'],
 		},{
+			path: '/fundsList',
+			component: fundsList,
+			meta: ['数据管理', '资金流水'],
+		},
+		{
 			path: '/visitor',
 			component: visitor,
 			meta: ['图表', '用户分布'],

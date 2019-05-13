@@ -138,12 +138,13 @@ export default {
   components: {
     headTop
   },
+  inject: ["reload"],
   methods: {
-    getDate(birthday) {
+    getDate(Timestamp) {
       /*
             格式化时间
         */
-      var d = new Date(birthday);
+      var d = new Date(Timestamp);
       var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       return date;
     },
@@ -199,27 +200,24 @@ export default {
       this.getTableData();
     },
     async handleDelete(index, row) {
+      let form = new FormData();
+      form.append("oldPeopleId", row.oldPeopleId);
       try {
-        this.$http
-          .delete("oldPeople/deleteById", {
-            data: {
-              oldPeopleId: row.oldPeopleId
-            }
-          })
-          .then(res => {
-            if (res.data.code == 1) {
-              this.$message({
-                type: "success",
-                message: "删除成功"
-              });
-              this.tableData.splice(index, 1);
-              this.oldPeoples.splice(this.offset + index, 1);
-              this.count = this.oldPeoples.length;
-              this.getTableData();
-            } else {
-              throw new Error(res.message);
-            }
-          });
+        this.$http.post("oldPeople/deleteById", form).then(res => {
+          if (res.data.code == 1) {
+            this.$message({
+              type: "success",
+              message: "办理出院成功"
+            });
+            this.tableData.splice(index, 1);
+            this.oldPeoples.splice(this.offset + index, 1);
+            this.count = this.oldPeoples.length;
+            this.getTableData();
+          } else {
+            this.$message.error("办理出院失败！");
+            throw new Error(res.message);
+          }
+        });
       } catch (err) {
         this.$message({
           type: "error",
@@ -287,22 +285,7 @@ export default {
         form.append("entryDate", this.selectTable.entryDate);
         this.$http.put("oldPeople/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            const data = {
-              oldPeople: {},
-              url: ""
-            };
-            data.oldPeople.name = this.selectTable.name;
-            data.oldPeople.address = this.selectTable.address;
-            data.oldPeople.photo = this.selectTable.photo;
-            data.oldPeople.oldPeopleId = this.selectTable.oldPeopleId;
-            data.oldPeople.telephone = this.selectTable.telephone;
-            data.oldPeople.sex = this.selectTable.sex;
-            data.oldPeople.birthday = this.selectTable.birthday;
-            data.oldPeople.idCard = this.selectTable.idCard;
-            data.oldPeople.familyPhone = this.selectTable.familyPhone;
-            data.oldPeople.entryDate = this.selectTable.entryDate;
-            data.url = this.selectTable.url;
-            this.oldPeoples[this.index] = data;
+            this.reload();
             this.$message({
               type: "success",
               message: "更新信息成功！"

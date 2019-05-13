@@ -8,7 +8,7 @@
         <el-table-column label="管理人员" prop="employer"></el-table-column>
         <el-table-column label="操作" width="160">
           <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">设置</el-button>
             <el-button
               v-if="isAdmin"
               size="small"
@@ -96,6 +96,7 @@ export default {
   components: {
     headTop
   },
+  inject: ["reload"],
   mounted() {
     this.initData();
   },
@@ -212,27 +213,24 @@ export default {
       this.getTableData();
     },
     async handleDelete(index, row) {
+      let form = new FormData();
+      form.append("bedId", row.bedId);
       try {
-        this.$http
-          .delete("bed/deleteById", {
-            data: {
-              bedId: row.bedId
-            }
-          })
-          .then(res => {
-            if (res.data.code == 1) {
-              this.$message({
-                type: "success",
-                message: "删除成功"
-              });
-              this.tableData.splice(index, 1);
-              this.beds.splice(this.offset + index, 1);
-              this.count = this.beds.length;
-              this.getTableData();
-            } else {
-              throw new Error(res.message);
-            }
-          });
+        this.$http.post("bed/deleteById", form).then(res => {
+          if (res.data.code == 1) {
+            this.$message({
+              type: "success",
+              message: "删除成功"
+            });
+            this.tableData.splice(index, 1);
+            this.beds.splice(this.offset + index, 1);
+            this.count = this.beds.length;
+            this.getTableData();
+          } else {
+            this.$message.error("床位删除失败！");
+            throw new Error(res.message);
+          }
+        });
       } catch (err) {
         this.$message({
           type: "error",
@@ -257,24 +255,10 @@ export default {
         form.append("employerId", this.selectTable.employerId);
         this.$http.put("bed/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            const data = {
-              bedId: "",
-              employerByEmployerId: {},
-              oldPeopleByOldPeopleId: {}
-            };
-            data.bedId = this.selectTable.bedId;
-            this.selectTable.oldPeopleByOldPeopleId.name = this.selectTable.oldPeople;
-            if(this.selectTable.employerByEmployerId==null)
-            {
-              this.selectTable.employerByEmployerId = {};
-            }
-            this.selectTable.employerByEmployerId.name = this.selectTable.employer;
-            data.employerByEmployerId = this.selectTable.employerByEmployerId;
-            data.oldPeopleByOldPeopleId = this.selectTable.oldPeopleByOldPeopleId;
-            this.beds[this.index] = data;
+            this.reload();
             this.$message({
               type: "success",
-              message: "更新信息成功！"
+              message: "更新床位信息成功！"
             });
           } else {
             this.$message.error("更新床位信息失败！");
