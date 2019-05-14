@@ -12,6 +12,7 @@ const addEmployer = r => require.ensure([], () => r(require('@/page/addEmployer'
 const addDepartment = r => require.ensure([], () => r(require('@/page/addDepartment')), 'addDepartment');
 const addBed = r => require.ensure([], () => r(require('@/page/addBed')), 'addBed');
 const addEquipment = r => require.ensure([], () => r(require('@/page/addEquipment')), 'addEquipment');
+const addFunds = r => require.ensure([], () => r(require('@/page/addFunds')), 'addFunds');
 const departmentList = r => require.ensure([], () => r(require('@/page/departmentList')), 'departmentList');
 const oldPeopleList = r => require.ensure([], () => r(require('@/page/oldPeopleList')), 'oldPeopleList');
 const employerList = r => require.ensure([], () => r(require('@/page/employerList')), 'employerList');
@@ -19,12 +20,7 @@ const bedList = r => require.ensure([], () => r(require('@/page/bedList')), 'bed
 const equipmentList = r => require.ensure([], () => r(require('@/page/equipmentList')), 'equipmentList');
 const fundsList = r => require.ensure([], () => r(require('@/page/fundsList')), 'fundsList');
 const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
-const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
-const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
-const vueEdit = r => require.ensure([], () => r(require('@/page/vueEdit')), 'vueEdit');
 const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
-const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
-const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
 
 const routes = [
 	{
@@ -70,17 +66,22 @@ const routes = [
 			meta: ['添加数据', '添加设备'],
 		},
 		{
+			path: '/addFunds',
+			component: addFunds,
+			meta: ['添加数据', '资金记录'],
+		},
+		{
 			path: '/departmentList',
 			component: departmentList,
-			meta: ['数据管理', '部门列表'],
+			meta: ['数据管理', '部门管理'],
 		},{
 			path: '/oldPeopleList',
 			component: oldPeopleList,
-			meta: ['数据管理', '老人列表'],
+			meta: ['数据管理', '老人管理'],
 		},{
 			path: '/employerList',
 			component: employerList,
-			meta: ['数据管理', '员工列表'],
+			meta: ['数据管理', '员工管理'],
 		},{
 			path: '/bedList',
 			component: bedList,
@@ -88,7 +89,7 @@ const routes = [
 		},{
 			path: '/equipmentList',
 			component: equipmentList,
-			meta: ['数据管理', '设备列表'],
+			meta: ['数据管理', '设备管理'],
 		},{
 			path: '/fundsList',
 			component: fundsList,
@@ -97,32 +98,12 @@ const routes = [
 		{
 			path: '/visitor',
 			component: visitor,
-			meta: ['图表', '用户分布'],
-		},{
-			path: '/newMember',
-			component: newMember,
-			meta: ['图表', '用户数据'],
-		},{
-			path: '/uploadImg',
-			component: uploadImg,
-			meta: ['文本编辑', 'MarkDown'],
-		},{
-			path: '/vueEdit',
-			component: vueEdit,
-			meta: ['编辑', '文本编辑'],
+			meta: ['图表', '年龄画像'],
 		},{
 			path: '/adminSet',
 			component: adminSet,
-			meta: ['设置', '管理员设置'],
-		},{
-			path: '/sendMessage',
-			component: sendMessage,
-			meta: ['设置', '发送通知'],
-		},{
-			path: '/explain',
-			component: explain,
-			meta: ['说明', '说明'],
-		}]
+			meta: ['设置', '个人中心'],
+		},]
 	}
 ]
 

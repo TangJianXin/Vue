@@ -90,7 +90,6 @@ export default {
   components: {
     headTop
   },
-  inject: ["reload"],
   created() {
     this.role = storage.get("1").role;
     if (this.role == "管理员") {
@@ -236,7 +235,7 @@ export default {
         form.append("departmentId", this.selectTable.departmentId);
         this.$http.put("equipment/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            this.reload();
+            this.initData();
             this.$message({
               type: "success",
               message: "更新信息成功！"

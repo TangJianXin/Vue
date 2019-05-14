@@ -7,7 +7,6 @@
           style="min-height: 100%;"
           theme="dark"
           router
-          :default-openeds="['2','4']"
         >
           <el-menu-item index="manage">
             <i class="el-icon-menu"></i>首页
@@ -32,6 +31,7 @@
             <el-menu-item v-if="isAdmin" index="addDepartment">添加部门</el-menu-item>
             <el-menu-item index="addBed">添加床位</el-menu-item>
             <el-menu-item index="addEquipment">添加设备</el-menu-item>
+            <el-menu-item index="addFunds">资金记录</el-menu-item>
           </el-submenu>
           <el-submenu index="4">
             <template slot="title">
@@ -44,7 +44,7 @@
             <template slot="title">
               <i class="el-icon-star-on"></i>图表
             </template>
-            <el-menu-item index="visitor">用户分布</el-menu-item>
+            <el-menu-item index="visitor">年龄画像</el-menu-item>
           </el-submenu>
           <el-submenu index="6">
             <template slot="title">

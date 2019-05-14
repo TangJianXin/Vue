@@ -2,6 +2,9 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="table_container">
+      <el-input v-model="name" style="width:160px" placeholder="输入姓名查询"></el-input>
+      <el-button type="primary" @click="findByName">查询</el-button>
+      <el-button @click="handleReset">重置</el-button>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -126,7 +129,8 @@ export default {
       dialogFormVisible: false,
       address: {},
       oldPeoples: [],
-      index: 0
+      index: 0,
+      name: ""
     };
   },
   mounted() {
@@ -138,7 +142,6 @@ export default {
   components: {
     headTop
   },
-  inject: ["reload"],
   methods: {
     getDate(Timestamp) {
       /*
@@ -268,6 +271,30 @@ export default {
       }
       return isRightType && isLt2M;
     },
+    handleReset()
+    {
+      this.name="";
+      this.initData();
+    },
+    async findByName() {
+      try {
+        this.$http
+          .get("oldPeople/findByName", {
+            params: {
+              name: this.name,
+            }
+          })
+          .then(res => {
+            if (res.data.code == 1) {
+              this.oldPeoples = res.data.data;
+              this.getTableData();
+            }
+          });
+      } catch (err) {
+        this.$message.error("查询失败！");
+        console.log("获取数据失败", err);
+      }
+    },
     async updateOldPeople() {
       this.dialogFormVisible = false;
       try {
@@ -285,7 +312,7 @@ export default {
         form.append("entryDate", this.selectTable.entryDate);
         this.$http.put("oldPeople/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            this.reload();
+            this.initData();
             this.$message({
               type: "success",
               message: "更新信息成功！"

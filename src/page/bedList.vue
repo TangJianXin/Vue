@@ -2,6 +2,9 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="table_container">
+      <el-input v-model="bedId" style="width:160px" placeholder="输入床位查询"></el-input>
+      <el-button type="primary" @click="findByBedId">查询</el-button>
+      <el-button @click="handleReset">重置</el-button>
       <el-table :data="tableData" style="width: 100%">
         <el-table-column label="床位编号" prop="bedId"></el-table-column>
         <el-table-column label="使用老人" prop="oldPeople"></el-table-column>
@@ -90,13 +93,13 @@ export default {
       selectMenu2: {},
       selectIndex2: null,
       role: "",
-      isAdmin: false
+      isAdmin: false,
+      bedId: ""
     };
   },
   components: {
     headTop
   },
-  inject: ["reload"],
   mounted() {
     this.initData();
   },
@@ -246,6 +249,29 @@ export default {
       this.offset = (val - 1) * this.limit;
       this.getTableData();
     },
+    handleReset() {
+      this.bedId = "";
+      this.initData();
+    },
+    async findByBedId() {
+      try {
+        this.$http
+          .get("bed/findById", {
+            params: {
+              bedId: this.bedId
+            }
+          })
+          .then(res => {
+            if (res.data.code == 1) {
+              this.beds = res.data.data;
+              this.getTableData();
+            }
+          });
+      } catch (err) {
+        this.$message.error("查询失败！");
+        console.log("获取数据失败", err);
+      }
+    },
     async updateBed() {
       try {
         this.dialogFormVisible = false;
@@ -255,7 +281,7 @@ export default {
         form.append("employerId", this.selectTable.employerId);
         this.$http.put("bed/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            this.reload();
+            this.initData();
             this.$message({
               type: "success",
               message: "更新床位信息成功！"

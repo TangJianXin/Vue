@@ -78,7 +78,6 @@ export default {
   components: {
     headTop
   },
-  inject: ["reload"],
   mounted() {
     this.initData();
   },
@@ -166,7 +165,7 @@ export default {
         form.append("departmentName", this.selectTable.departmentName);
         this.$http.put("department/modifyInformation", form).then(res => {
           if (res.data.code == 1) {
-            this.reload();
+            this.initData();
             this.$message({
               type: "success",
               message: "更新信息成功！"

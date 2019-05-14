@@ -26,14 +26,14 @@
                 const option = {
                     color: colors,
                     title: {
-                        text: '走势图',
+                        text: '资金走势',
                         subtext: ''
                     },
                     tooltip: {
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['新注册用户', '新增订单', '新增管理员']
+                        data:['收入', '支出', '利润']
                     },
                     toolbox: {
                         show: true,
@@ -54,7 +54,7 @@
                     yAxis: [
                         {
                           type: 'value',
-                          name: '用户',
+                          name: '资金',
                           min: 0,
                           max: 200,
                           position: 'left',
@@ -69,7 +69,7 @@
                         },
                         {
                           type: 'value',
-                          name: '订单',
+                          name: '资金',
                           min: 0,
                           max: 200,
                           position: 'right',
@@ -85,7 +85,7 @@
                     ],
                     series: [
                         {
-                            name:'新注册用户',
+                            name:'收入',
                             type:'line',
                             data:this.sevenDate[0],
                             yAxisIndex: 1,
@@ -97,7 +97,7 @@
                             },
                         },
                         {
-                            name:'新增订单',
+                            name:'支出',
                             type:'line',
                             data:this.sevenDate[1],
                             yAxisIndex: 1,
@@ -109,7 +109,7 @@
                             },
                         },
                         {
-                            name:'新增管理员',
+                            name:'利润',
                             type:'line',
                             data:this.sevenDate[2],
                             yAxisIndex: 1,

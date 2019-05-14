@@ -2,18 +2,18 @@
     <div>
         <head-top></head-top>
 		<section class="data_section">
-			<header class="section_title">数据统计</header>
+			<header class="section_title">运营状况</header>
 			<el-row :gutter="20" style="margin-bottom: 10px;">
                 <el-col :span="4"><div class="data_list today_head"><span class="data_num head">当日数据：</span></div></el-col>
-				<el-col :span="4"><div class="data_list"><span class="data_num">{{userCount}}</span> 新增用户</div></el-col>
-				<el-col :span="4"><div class="data_list"><span class="data_num">{{orderCount}}</span> 新增订单</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{adminCount}}</span> 新增管理员</div></el-col>
+				<el-col :span="4"><div class="data_list">收入：<span class="data_num">{{userCount}}</span> </div></el-col>
+				<el-col :span="4"><div class="data_list">支出：<span class="data_num">{{orderCount}}</span></div></el-col>
+                <el-col :span="4"><div class="data_list">利润：<span class="data_num">{{adminCount}}</span></div></el-col>
 			</el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="data_list all_head"><span class="data_num head">总数据：</span></div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allUserCount}}</span> 注册用户</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allOrderCount}}</span> 订单</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allAdminCount}}</span> 管理员</div></el-col>
+                <el-col :span="4"><div class="data_list all_head"><span class="data_num head">本周数据：</span></div></el-col>
+                <el-col :span="4"><div class="data_list">收入：<span class="data_num">{{allUserCount}}</span></div></el-col>
+                <el-col :span="4"><div class="data_list">支出：<span class="data_num">{{allOrderCount}}</span></div></el-col>
+                <el-col :span="4"><div class="data_list">利润：<span class="data_num">{{allAdminCount}}</span></div></el-col>
             </el-row>
 		</section>
 		<tendency :sevenDate='sevenDate' :sevenDay='sevenDay'></tendency>
@@ -28,6 +28,12 @@
     export default {
     	data(){
     		return {
+				dayIncome:null,
+				dayOutlay:null,
+				dayTotal:null,
+				monthIncome:null,
+				monthOut:null,
+				monthTotal:null,
     			userCount: null,
     			orderCount: null,
                 adminCount: null,
@@ -95,7 +101,7 @@
 <style lang="less">
 	@import '../style/mixin';
 	.data_section{
-		padding: 20px;
+		padding: 18px;
 		margin-bottom: 40px;
 		.section_title{
 			text-align: center;
@@ -104,13 +110,13 @@
 		}
 		.data_list{
 			text-align: center;
-			font-size: 14px;
-			color: #666;
+			font-size: 18px;
+			color: #333;
             border-radius: 6px;
             background: #E5E9F2;
             .data_num{
                 color: #333;
-                font-size: 26px;
+                font-size: 20px;
 
             }
             .head{
