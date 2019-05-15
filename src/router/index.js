@@ -21,6 +21,8 @@ const equipmentList = r => require.ensure([], () => r(require('@/page/equipmentL
 const fundsList = r => require.ensure([], () => r(require('@/page/fundsList')), 'fundsList');
 const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
 const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
+const addQuota = r => require.ensure([], () => r(require('@/page/addQuota')), 'addQuota');
+const quotaList= r => require.ensure([], () => r(require('@/page/quotaList')), 'quotaList');
 
 const routes = [
 	{
@@ -103,6 +105,16 @@ const routes = [
 			path: '/adminSet',
 			component: adminSet,
 			meta: ['设置', '个人中心'],
+		},
+		{
+			path: '/addQuota',
+			component: addQuota,
+			meta: ['监控指标', '指标采集'],
+		},
+		{
+			path: '/quotaList',
+			component: quotaList,
+			meta: ['监控指标', '体征指标'],
 		},]
 	}
 ]

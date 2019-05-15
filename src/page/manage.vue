@@ -37,8 +37,8 @@
             <template slot="title">
               <i class="el-icon-warning"></i>监控指标
             </template>
-            <el-menu-item index="visitor">指标采集</el-menu-item>
-            <el-menu-item index="visitor">体征指标</el-menu-item>
+            <el-menu-item index="addQuota">指标采集</el-menu-item>
+            <el-menu-item index="quotaList">体征指标</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">

@@ -64,7 +64,7 @@ export default {
         detail: [{ required: true, message: "请选择说明", trigger: "blur" }],
         flag: [{ required: true, message: "请选择类型", trigger: "blur" }]
       },
-      options1: [{ value: "1", label: "收入" }, { value: "2", label: "支出" }],
+      options1: [{ value: "1", label: "收入" }, { value: "0", label: "支出" }],
       options2: [
         { value: "采购", label: "采购" },
         { value: "工资", label: "工资" },
