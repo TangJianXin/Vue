@@ -19,13 +19,10 @@
 <script>
 import headTop from "@/components/headTop";
 import echarts from "echarts/lib/echarts";
-// 引入柱状图
-import "echarts/lib/chart/bar";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/toolbox";
-import "echarts/lib/component/markPoint";
 import "echarts/lib/component/tooltip";
 export default {
   data() {
@@ -45,15 +42,15 @@ export default {
   components: {
     headTop
   },
-  created() {
+  created() {},
+  activated: function() {
     this.websocket();
-  },
-  mounted() {
+    this.initData();
     this.myChart = echarts.init(document.getElementById("heart"));
     this.draw();
-    this.initData();
     this.getOldPeoples();
   },
+  mounted() {},
   methods: {
     async initData() {
       for (var i = 0; i < 30; i++) {
@@ -211,6 +208,9 @@ export default {
     },
     async handle() {
       if (this.info == "采集") {
+        this.hearts.splice(0, this.hearts.length);
+        this.breathes.splice(0, this.breathes.length);
+        this.temperatures.splice(0, this.temperatures.length);
         try {
           let form = new FormData();
           form.append("oldPeopleId", this.oldPeopleId);

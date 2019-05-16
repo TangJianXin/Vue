@@ -173,8 +173,11 @@ export default {
     headTop
   },
   inject: ["reload"],
-  mounted() {
+  activated: function() {
     this.initData();
+  },
+  mounted() {
+    //this.initData();
   },
   methods: {
     getDate(Timestamp) {
@@ -262,8 +265,8 @@ export default {
             form.append("address", this.formData.address);
             form.append("telephone", this.formData.telephone);
             form.append("photo", this.formData.photo);
-						form.append("departmentId", this.formData.department);
-						form.append("position", this.formData.department);
+            form.append("departmentId", this.formData.department);
+            form.append("position", this.formData.department);
             form.append("birthday", this.formData.birthday);
             form.append("entryDate", this.formData.entryDate);
             this.$http.post("employer/add", form).then(res => {

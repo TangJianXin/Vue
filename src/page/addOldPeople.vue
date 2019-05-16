@@ -85,7 +85,7 @@
 
 <script>
 import headTop from "@/components/headTop";
-import { cityGuess,searchplace } from "@/api/getData";
+import { cityGuess, searchplace } from "@/api/getData";
 export default {
   data() {
     return {
@@ -142,8 +142,11 @@ export default {
     headTop
   },
   inject: ["reload"],
-  mounted() {
+  activated: function() {
     this.initData();
+  },
+  mounted() {
+    //this.initData();
   },
   methods: {
     getDate(Timestamp) {

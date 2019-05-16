@@ -13,7 +13,7 @@
           <el-form-item label="部门编号" prop="departmentId">
             <el-input v-model="formData.departmentId"></el-input>
           </el-form-item>
-					<el-form-item label="部门名称" prop="departmentName">
+          <el-form-item label="部门名称" prop="departmentName">
             <el-input v-model="formData.departmentName"></el-input>
           </el-form-item>
           <el-form-item class="button_submit">
@@ -48,9 +48,9 @@ export default {
     headTop
   },
   inject: ["reload"],
-  mounted() {
-    //this.initData();
+  activated: function() {
   },
+  mounted() {},
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async valid => {

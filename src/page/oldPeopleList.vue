@@ -133,6 +133,9 @@ export default {
       name: ""
     };
   },
+  activated: function() {
+    //this.initData()
+  },
   mounted() {
     this.initData();
   },
@@ -287,6 +290,7 @@ export default {
           .then(res => {
             if (res.data.code == 1) {
               this.oldPeoples = res.data.data;
+              this.count = this.oldPeoples.length;
               this.getTableData();
             }
           });

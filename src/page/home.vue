@@ -78,14 +78,15 @@ export default {
       incomes: [],
       outlays: [],
       profits: [],
-	  moneys: [],
+      moneys: []
     };
   },
   components: {
     headTop
   },
+  activated: function() {},
   mounted() {
-	this.myChart = echarts.init(document.getElementById("state"));
+    this.myChart = echarts.init(document.getElementById("state"));
     this.initData();
   },
   methods: {
@@ -102,7 +103,7 @@ export default {
               this.weekOutlay = this.weekOutlay + this.moneys[i].outlay;
               this.weekProfit = this.weekProfit + this.moneys[i].profit;
               this.incomes.push(this.moneys[i].income);
-              this.outlays.push(0-this.moneys[i].outlay);
+              this.outlays.push(0 - this.moneys[i].outlay);
               this.profits.push(this.moneys[i].profit);
               this.dates.push(this.moneys[i].date);
             }
@@ -176,7 +177,7 @@ export default {
                 }
               ]
             };
-			this.myChart.setOption(option);
+            this.myChart.setOption(option);
           }
         });
       } catch (err) {

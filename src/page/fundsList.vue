@@ -17,10 +17,9 @@
         <el-table-column prop="type" label="类型"></el-table-column>
         <el-table-column prop="operator" label="操作人"></el-table-column>
         <el-table-column width="200" prop="date" label="时间"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button
-              v-if="isAdmin"
               size="small"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"

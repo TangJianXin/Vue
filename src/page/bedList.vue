@@ -100,6 +100,9 @@ export default {
   components: {
     headTop
   },
+  activated: function() {
+    //this.initData();
+  },
   mounted() {
     this.initData();
   },
@@ -264,6 +267,7 @@ export default {
           .then(res => {
             if (res.data.code == 1) {
               this.beds = res.data.data;
+              this.count = this.beds.length;
               this.getTableData();
             }
           });

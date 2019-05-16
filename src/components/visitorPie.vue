@@ -17,6 +17,7 @@ export default {
       ages: []
     };
   },
+  activated: function() {},
   mounted() {
     this.myChart = echarts.init(document.getElementById("visitorpie"));
     this.initData();
@@ -30,7 +31,7 @@ export default {
             this.ages = res.data.data;
             const option = {
               title: {
-                text: "老人年龄分布",
+                text: "老人年龄画像",
                 subtext: "",
                 x: "center"
               },

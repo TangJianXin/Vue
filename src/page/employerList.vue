@@ -160,14 +160,14 @@ export default {
       name: ""
     };
   },
+  activated: function() {
+    //this.initData();
+  },
   mounted() {
     this.initData();
   },
   created() {
-    this.role = storage.get("1").role;
-    if (this.role == "管理员") {
-      this.isAdmin = true;
-    }
+    
   },
   components: {
     headTop
@@ -359,6 +359,7 @@ export default {
           .then(res => {
             if (res.data.code == 1) {
               this.employers = res.data.data;
+              this.count = this.employers.length;
               this.getTableData();
             }
           });

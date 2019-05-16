@@ -59,8 +59,11 @@ export default {
     headTop
   },
   inject: ["reload"],
-  mounted() {
+  activated: function() {
     this.initData();
+  },
+  mounted() {
+    //this.initData();
   },
   methods: {
     async initData() {

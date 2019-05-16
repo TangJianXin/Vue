@@ -78,15 +78,13 @@ export default {
   components: {
     headTop
   },
+  activated: function() {
+    //this.initData();
+  },
   mounted() {
     this.initData();
   },
-  created() {
-    this.role = storage.get("1").role;
-    if (this.role == "管理员") {
-      this.isAdmin = true;
-    }
-  },
+  created() {},
   methods: {
     async initData() {
       try {
