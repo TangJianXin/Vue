@@ -180,6 +180,7 @@ export default {
           .then(res => {
             if (res.data.code == 1) {
               this.funds = res.data.data;
+              this.count = this.funds.length;
               this.getTableData();
             }
           });
