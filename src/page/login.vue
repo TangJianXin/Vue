@@ -84,7 +84,7 @@ export default {
 <style lang="less" scoped>
 @import "../style/mixin";
 .login_page {
-  background-color: #324057;
+  background-image: url("../assets/img/100a0a00000055pr166C2.jpg")
 }
 .manage_tip {
   position: absolute;

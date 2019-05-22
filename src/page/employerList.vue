@@ -51,7 +51,6 @@
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index,scope.row)">修改</el-button>
             <el-button
-              v-if="isAdmin"
               size="small"
               type="primary"
               @click="handleDelete(scope.$index, scope.row)"
