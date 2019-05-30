@@ -107,10 +107,6 @@ export default {
               this.profits.push(this.moneys[i].profit);
               this.dates.push(this.moneys[i].date);
             }
-            //console.log(this.incomes);
-            //console.log(this.outlays);
-            //console.log(this.profits);
-            //console.log(this.dates);
             const option = {
               tooltip: {
                 trigger: "axis",

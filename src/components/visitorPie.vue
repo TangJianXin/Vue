@@ -6,7 +6,6 @@
 
 <script>
 import echarts from "echarts/lib/echarts";
-// 引入柱状图
 import "echarts/lib/chart/pie";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";

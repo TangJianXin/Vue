@@ -42,9 +42,11 @@
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">
-              <i class="el-icon-star-on"></i>图表
+              <i class="el-icon-star-on"></i>图表统计
             </template>
-            <el-menu-item index="visitor">年龄画像</el-menu-item>
+            <el-menu-item index="ageFigure">年龄画像</el-menu-item>
+            <el-menu-item index="fundsFigure">资金用途</el-menu-item>
+            <el-menu-item index="departmentFigure">部门数据</el-menu-item>
           </el-submenu>
           <el-submenu index="6">
             <template slot="title">

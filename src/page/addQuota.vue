@@ -1,7 +1,7 @@
 <template>
   <div>
     <head-top></head-top>
-    <div id="heart" style="width: 100%;height:400px;"></div>
+    <div id="heart" style="width: 100%;height:400px;margin-top: 32px;"></div>
     <div style="text-align:center">
       <el-select v-model="oldPeopleId" placeholder="选择老人">
         <el-option

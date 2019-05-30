@@ -44,7 +44,7 @@
         <el-table-column label="老人编号" prop="oldPeopleId"></el-table-column>
         <el-table-column label="姓名" prop="name"></el-table-column>
         <el-table-column label="联系方式" prop="telephone"></el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column label="操作" width="160px">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             <el-button size="small" type="primary" @click="handleDelete(scope.$index, scope.row)">出院</el-button>
@@ -274,9 +274,8 @@ export default {
       }
       return isRightType && isLt2M;
     },
-    handleReset()
-    {
-      this.name="";
+    handleReset() {
+      this.name = "";
       this.initData();
     },
     async findByName() {
@@ -284,7 +283,7 @@ export default {
         this.$http
           .get("oldPeople/findByName", {
             params: {
-              name: this.name,
+              name: this.name
             }
           })
           .then(res => {

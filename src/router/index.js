@@ -19,10 +19,12 @@ const employerList = r => require.ensure([], () => r(require('@/page/employerLis
 const bedList = r => require.ensure([], () => r(require('@/page/bedList')), 'bedList');
 const equipmentList = r => require.ensure([], () => r(require('@/page/equipmentList')), 'equipmentList');
 const fundsList = r => require.ensure([], () => r(require('@/page/fundsList')), 'fundsList');
-const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
+const ageFigure= r => require.ensure([], () => r(require('@/page/ageFigure')), 'ageFigure');
 const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
 const addQuota = r => require.ensure([], () => r(require('@/page/addQuota')), 'addQuota');
-const quotaList= r => require.ensure([], () => r(require('@/page/quotaList')), 'quotaList');
+const quotaList = r => require.ensure([], () => r(require('@/page/quotaList')), 'quotaList');
+const fundsFigure = r => require.ensure([], () => r(require('@/page/fundsFigure')), 'fundsFigure');
+const departmentFigure = r => require.ensure([], () => r(require('@/page/departmentFigure')), 'departmentFigure');
 
 const routes = [
 	{
@@ -98,10 +100,21 @@ const routes = [
 			meta: ['数据管理', '资金流水'],
 		},
 		{
-			path: '/visitor',
-			component: visitor,
-			meta: ['图表', '年龄画像'],
-		},{
+			path: '/ageFigure',
+			component: ageFigure,
+			meta: ['图表统计', '年龄画像'],
+		},
+		{
+			path: '/fundsFigure',
+			component: fundsFigure,
+			meta: ['图表统计', '资金用途'],
+		},
+		{
+			path: '/departmentFigure',
+			component: departmentFigure,
+			meta: ['图表统计', '部门数据'],
+		},
+		{
 			path: '/adminSet',
 			component: adminSet,
 			meta: ['设置', '个人中心'],
